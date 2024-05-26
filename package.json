@@ -1,0 +1,16 @@
+{
+  "name": "bun-react",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "bun index.ts",
+    "dev": "bun --watch index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

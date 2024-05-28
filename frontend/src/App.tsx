@@ -1,22 +1,28 @@
-import { useState } from 'react'
-import './App.css'
+import { useEffect, useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [spent, setSpent] = useState(0);
 
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="flex flex-col items-center mx-auto pt-14 gap-4 max-w-md">
+        <Card className="w-[350px]">
+          <CardHeader>
+            <CardTitle>Total Spent</CardTitle>
+            <CardDescription>The total amount you have spent</CardDescription>
+          </CardHeader>
+          <CardContent>{spent}</CardContent>
+        </Card>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

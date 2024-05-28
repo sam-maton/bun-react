@@ -2,16 +2,15 @@ import { Hono } from "hono";
 import { z } from "zod";
 import { zValidator } from '@hono/zod-validator'
 
-type Expense = {
-  id: number;
-  amount: number;
-  title: string;
-};
-
-const postExpenseSchema = z.object({
+const expenseSchema = z.object({
+  id: z.number().int().positive().min(1),
   amount: z.number().int().positive(),
   title: z.string().min(3).max(100)
-});
+})
+
+const postExpenseSchema = expenseSchema.omit({id: true})
+
+type Expense = z.infer<typeof expenseSchema>
 
 const fakeExpenses: Expense[] = [
   {
@@ -50,6 +49,7 @@ expensesRoute.get("/:id{[0-9]+}", c => {
 expensesRoute.post("/", zValidator('json', postExpenseSchema), async c => {
   const expense = c.req.valid("json");
   fakeExpenses.push({...expense, id: (fakeExpenses.length + 1)})
+  c.status(201)
   return c.json(expense.title);
 })
 
@@ -59,7 +59,7 @@ expensesRoute.post("/:id{[0-9]+}", c => {
 
   const expenseIndex = fakeExpenses.findIndex(e => e.id === id);
 
-  if (expenseIndex < 0) {
+  if (expenseIndex === -1) {
     return c.notFound();
   }
 

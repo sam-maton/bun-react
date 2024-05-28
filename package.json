@@ -1,11 +1,11 @@
 {
   "name": "bun-react",
-  "module": "index.ts",
+  "module": "server/index.ts",
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "bun index.ts",
-    "dev": "bun --watch index.ts"
+    "start": "bun server/index.ts",
+    "dev": "bun --watch server/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"

@@ -22,6 +22,11 @@ const fakeExpenses: Expense[] = [
     id: 2,
     amount: 200,
     title: 'Lunch'
+  },
+  {
+    id: 3,
+    amount: 300,
+    title: 'Dinner'
   }
 ];
 

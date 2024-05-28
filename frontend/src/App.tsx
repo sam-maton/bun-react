@@ -10,6 +10,12 @@ import {
 function App() {
   const [spent, setSpent] = useState(0);
 
+  useEffect(() => {
+    fetch('/api/expenses/total')
+      .then((res) => res.json())
+      .then((data) => setSpent(data.total));
+  }, []);
+
   return (
     <>
       <div className="flex flex-col items-center mx-auto pt-14 gap-4 max-w-md">

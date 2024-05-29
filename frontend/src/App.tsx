@@ -6,14 +6,19 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
+import { clientRpc } from '@/lib/client-rpc';
 
 function App() {
   const [spent, setSpent] = useState(0);
 
   useEffect(() => {
-    fetch('/api/expenses/total')
-      .then((res) => res.json())
-      .then((data) => setSpent(data.total));
+    async function fetchTotalSpent() {
+      const res = await clientRpc.api.expenses['total'].$get();
+      const data = await res.json();
+      setSpent(data.total);
+    }
+
+    fetchTotalSpent();
   }, []);
 
   return (

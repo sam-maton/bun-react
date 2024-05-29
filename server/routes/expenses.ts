@@ -30,51 +30,44 @@ const fakeExpenses: Expense[] = [
   }
 ];
 
-export const expensesRoute = new Hono();
+export const expensesRoute = new Hono()
+  .get('/', (c) => {
+    return c.json({ expenses: fakeExpenses });
+  })
+  .get('/:id{[0-9]+}', (c) => {
+    const id = Number.parseInt(c.req.param('id'));
 
-//Get all
-expensesRoute.get('/', (c) => {
-  return c.json({ expenses: fakeExpenses });
-});
+    const expense = fakeExpenses.find((e) => e.id === id);
 
-//Get :id
-expensesRoute.get('/:id{[0-9]+}', (c) => {
-  const id = Number.parseInt(c.req.param('id'));
+    if (!expense) {
+      return c.notFound();
+    }
 
-  const expense = fakeExpenses.find((e) => e.id === id);
+    return c.json({ expense });
+  })
+  .get('/total', (c) => {
+    const total = fakeExpenses.reduce(
+      (acc, expense) => acc + expense.amount,
+      0
+    );
+    return c.json({ total });
+  })
+  .post('/', zValidator('json', postExpenseSchema), async (c) => {
+    const expense = c.req.valid('json');
+    fakeExpenses.push({ ...expense, id: fakeExpenses.length + 1 });
+    c.status(201);
+    return c.json(expense.title);
+  })
+  .post('/:id{[0-9]+}', (c) => {
+    const id = Number.parseInt(c.req.param('id'));
 
-  if (!expense) {
-    return c.notFound();
-  }
+    const expenseIndex = fakeExpenses.findIndex((e) => e.id === id);
 
-  return c.json({ expense });
-});
+    if (expenseIndex === -1) {
+      return c.notFound();
+    }
 
-//Get total sum
-expensesRoute.get('/total', (c) => {
-  const total = fakeExpenses.reduce((acc, expense) => acc + expense.amount, 0);
-  return c.json({ total });
-});
+    fakeExpenses.splice(expenseIndex, 1);
 
-//Post new
-expensesRoute.post('/', zValidator('json', postExpenseSchema), async (c) => {
-  const expense = c.req.valid('json');
-  fakeExpenses.push({ ...expense, id: fakeExpenses.length + 1 });
-  c.status(201);
-  return c.json(expense.title);
-});
-
-//Delete :id
-expensesRoute.post('/:id{[0-9]+}', (c) => {
-  const id = Number.parseInt(c.req.param('id'));
-
-  const expenseIndex = fakeExpenses.findIndex((e) => e.id === id);
-
-  if (expenseIndex === -1) {
-    return c.notFound();
-  }
-
-  fakeExpenses.splice(expenseIndex, 1);
-
-  return c.json(fakeExpenses);
-});
+    return c.json(fakeExpenses);
+  });

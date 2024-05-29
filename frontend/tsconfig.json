@@ -23,7 +23,8 @@
     // Shadcn/ui
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@server/*": ["../server/*"]
     }
   },
   "include": ["src"],

@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
 import {
   Card,
   CardContent,
@@ -8,6 +9,10 @@ import {
 import { clientRpc } from '@/lib/client-rpc';
 import { useQuery } from '@tanstack/react-query';
 
+export const Route = createFileRoute('/')({
+  component: Index
+});
+
 async function getTotalSpent() {
   const res = await clientRpc.api.expenses['total'].$get();
 
@@ -17,7 +22,7 @@ async function getTotalSpent() {
   return data.total;
 }
 
-function App() {
+function Index() {
   const { isPending, error, data } = useQuery({
     queryKey: ['get-total'],
     queryFn: getTotalSpent
@@ -39,5 +44,3 @@ function App() {
     </>
   );
 }
-
-export default App;

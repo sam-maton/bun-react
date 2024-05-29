@@ -3,11 +3,11 @@
   "module": "server/index.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc",
     "start": "bun server/index.ts",
     "dev": "bun --watch server/index.ts"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.7",
     "@types/bun": "latest"
   },
   "peerDependencies": {

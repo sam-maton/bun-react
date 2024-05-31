@@ -32,7 +32,6 @@ const fakeExpenses: Expense[] = [
 
 export const expensesRoute = new Hono()
   .get('/', async (c) => {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
     return c.json({ expenses: fakeExpenses });
   })
   .get('/:id{[0-9]+}', (c) => {

@@ -1,17 +1,16 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+  navigationMenuTriggerStyle
+} from '@/components/ui/navigation-menu';
 
 export const Route = createRootRoute({
   component: () => (
     <>
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>{' '}
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-      </div>
+      <NavBar />
       <hr />
       <div className="flex flex-col items-center mx-auto gap-4 max-w-md">
         <Outlet />
@@ -20,3 +19,27 @@ export const Route = createRootRoute({
     </>
   )
 });
+
+function NavBar() {
+  return (
+    <NavigationMenu className="p-2">
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <Link to="/" className={navigationMenuTriggerStyle()}>
+            Home
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link to="/expenses" className={navigationMenuTriggerStyle()}>
+            Expenses
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link to="/create-expense" className={navigationMenuTriggerStyle()}>
+            +
+          </Link>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
+}

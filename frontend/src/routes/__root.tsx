@@ -1,5 +1,4 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -15,7 +14,6 @@ export const Route = createRootRoute({
       <div className="flex flex-col items-center mx-auto gap-4 max-w-md">
         <Outlet />
       </div>
-      <TanStackRouterDevtools />
     </>
   )
 });
